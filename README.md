@@ -42,3 +42,7 @@ To do the same with *future* PCR values, use tpm\_futurepcr:
 
     tpm_futurepcr -L 0,2,4,7 -o pcrvalues.bin
     tpm2_createpolicy --policy-pcr --pcr-list=sha256:0,2,4,7 --pcr=pcrvalues.bin --policy=policy.bin
+
+## Changelog
+
+251103: [1.5.1] Update signify use to 0.91.

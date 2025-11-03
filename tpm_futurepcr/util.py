@@ -1,6 +1,6 @@
 import hashlib
 import os
-import signify.fingerprinter
+from signify.authenticode import AuthenticodeFile
 import subprocess
 import argparse
 
@@ -45,9 +45,14 @@ def hash_file(path, alg="sha1"):
 
 def hash_pecoff(path, alg="sha1"):
     with open(path, "rb") as fh:
-        fpr = signify.fingerprinter.AuthenticodeFingerprinter(fh)
-        fpr.add_authenticode_hashers(getattr(hashlib, alg))
-        return fpr.hash()[alg]
+        #fpr = signify.authenticode.AuthenticodeFingerprinter(fh)
+        #fpr = signify.authenticode.AuthenticodeFile.get_fingerprint(fh)
+        #fpr.add_authenticode_hashers(getattr(hashlib, alg))
+        af = AuthenticodeFile.from_stream(fh)
+        return af.get_fingerprint(getattr(hashlib, alg))
+        #fpr = SignedPEFingerprinter(fh)
+        #fpr.add_signed_pe_hashers(getattr(hashlib, alg))
+        #return fpr.hash()[alg]
     return None
 
 def read_pecoff_section(path, section):
